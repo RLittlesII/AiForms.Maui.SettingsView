@@ -1,9 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net9.0;net9.0-android;net9.0-ios;net9.0-maccatalyst</TargetFrameworks>
+		<TargetFramework>net9.0-ios</TargetFramework>
 		<UseMaui>true</UseMaui>
-		<MauiVersion>9.0.40</MauiVersion>
 		<SingleProject>true</SingleProject>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
@@ -24,6 +23,8 @@ There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,Che
 			.NET9 supported
         </PackageReleaseNotes>
 		<PackageTags>MAUI TableView Cell Setting Configuration Option ListView UITableView RecyclerView ReOrder DragDrop</PackageTags>
+
+        <NoWarn>CS8601,CS8602,CS8603,CS8618,CS8634,CS8625</NoWarn>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-ios|AnyCPU'">
@@ -44,20 +45,22 @@ There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,Che
 	  <EnableCodeSigning>false</EnableCodeSigning>
 	</PropertyGroup>
 
+<!--    <ItemGroup Condition="$(TargetFramework.Contains('-ios'))">-->
+<!--        <Compile Include="Native\iOS\**\*.cs" />-->
+<!--        <Compile Include="Platforms\iOS\**\*.cs" />-->
+<!--    </ItemGroup>-->
+
+<!--    <ItemGroup Condition="!$(TargetFramework.Contains('-ios'))">-->
+<!--        <Compile Remove="Native\iOS\**\*.cs" />-->
+<!--        <Compile Remove="Platforms\iOS\**\*.cs" />-->
+<!--    </ItemGroup>-->
+
 	<!-- Android -->
 	<ItemGroup Condition="$(TargetFramework.StartsWith('net9.0-android')) != true">
 		<Compile Remove="**\**\*.Android.cs" />
 		<None Include="**\**\*.Android.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
 		<Compile Remove="**\Android\**\*.cs" />
 		<None Include="**\Android\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />  
-	</ItemGroup>
-
-	<!-- iOS / Mac -->
-	<ItemGroup Condition="$(TargetFramework.StartsWith('net9.0-ios')) != true AND $(TargetFramework.StartsWith('net9.0-maccatalyst')) != true">
-		<Compile Remove="**\**\*.iOS.cs" />
-		<None Include="**\**\*.iOS.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
-		<Compile Remove="**\iOS\**\*.cs" />
-		<None Include="**\iOS\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />  
 	</ItemGroup>
 
 	<!-- NET -->
@@ -68,8 +71,8 @@ There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,Che
 	
 
 	<ItemGroup>
-	  <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
-	  <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
+	  <PackageReference Include="Microsoft.Maui.Controls" />
+	  <PackageReference Include="Microsoft.Maui.Controls.Compatibility" />
 	</ItemGroup>
 
 </Project>
